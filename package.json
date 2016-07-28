@@ -1,0 +1,17 @@
+{
+  "name": "din-6771",
+  "description": "Draw a DIN-6771 frame",
+  "version": "0.0.1",
+  "author": "Leonid Suprun <mr.slay@gmail.com>",
+  "bugs" : {
+    "url" : "http://github.com/spreecode/node-din-6771/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/spreecode/node-din-6771.git"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "license": "Unlicense"
+}
