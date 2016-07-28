@@ -29,6 +29,26 @@ din.prototype.draw = function() {
 };
 
 din.prototype.drawFrame = function() {
+
+	/*
+		    X0 X1   X2  X3 X4  X5  X6      X7        X8   X9     X10   X11
+		 Y0 ┌──────────────┬───────┬───────┬──────────────┬────────────┐
+		 Y1 |              |       |       ├──────────────┴────────────┤
+		    |              |       |       |                           |
+		 Y2 ├──┬────┬───┬──┼───┬───┼───────┼───────────────────────────┤
+		 Y3 ├──┼────┼───┼──┼───┼───┼───────┤                           |
+		 Y4 ├──┼────┼───┼──┼───┼───┼───────┼───────────────────────────┤
+		 Y5 ├──┼────┼───┼──┼───┼───┼───────┤                           |
+		 Y6 ├──┼────┼───┼──┼───┴───┼───────┤                           |
+		 Y7 ├──┼────┼───┼──┼───────┴───────┼────────────────────┬──────┤
+		 Y8 ├──┼────┼───┼──┤               |                    |      |
+		 Y9 ├──┼────┼───┼──┤               |                    ├──────┤
+		Y10 ├──┼────┼───┼──┼───────────────┼────────┬───────────┴──────┤
+		Y11 └──┴────┴───┴──┴───────────────┴────────┴──────────────────┘
+		    X0 X1   X2  X3 X4  X5  X6      X7       X8   X9     X10    X11
+	*/
+
+
 	const X0 = this.stamp.left;
 	const X1 = this.stamp.left + mm2pt(7.6);
 	const X2 = X1 + mm2pt(26.57);
@@ -91,6 +111,25 @@ din.prototype.drawFrame = function() {
 	return this;
 }
 
+din.prototype.areas = function() {
+	/*
+		A--------------e-------------B
+		|                            |
+		|                            |
+		|                            |
+		b              +-------------C
+		|              |             |
+		E--------------D-------------+
+
+		Top area is ABCb described as AC vector.
+		Left area is AeDE described as AD vector.
+	 */
+	return {
+		top: area(this.margins.left, this.margins.top, this.margins.right, this.stamp.top),
+		left: area(this.margins.left, this.margins.top, this.stamp.left, this.margins.bottom)
+	};
+}
+
 din.prototype.line = function(x1, y1, x2, y2) {
 	this.doc.moveTo(x1, y1).lineTo(x2, y2).stroke();
 	return this;
@@ -103,6 +142,20 @@ din.prototype.drawBorder = function() {
 		L ${this.margins.right},${this.margins.top} z`).stroke();
 
 	return this;
+}
+
+function area(x1, y1, x2, y2) {
+	var result = {
+		left: Math.min(x1, x2),
+		right: Math.max(x1, x2),
+		top: Math.min(y1, y2),
+		bottom: Math.max(y1, y2),
+		width: Math.abs(x2-x1),
+		height: Math.abs(y2-y1)
+	}
+	result.fit = [result.width, result.height];
+
+	return result;
 }
 
 function mm2pt(mm) {
