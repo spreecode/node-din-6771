@@ -1,4 +1,4 @@
-# node-din-6771
+# din-6771
 Draw DIN 6771 frame to PDFKit document
 
 ```javascript
@@ -13,4 +13,10 @@ var doc = new PDFDocument({
 din6771(doc).draw();
 
 doc.save().end();
+```
+
+# Installation
+
+```shell
+npm install spreecode/node-din-6771
 ```
