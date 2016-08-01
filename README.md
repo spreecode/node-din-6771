@@ -15,6 +15,10 @@ din6771(doc).draw();
 doc.save().end();
 ```
 
+# Output example
+
+![A3 example](A3-example.png)
+
 # Installation
 
 ```shell
