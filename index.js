@@ -11,14 +11,20 @@ function din(doc) {
 	this.margins = {
 		left: margin,
 		top: margin,
+		right: margin,
+		bottom: margin
+	}
+	this.margins.absolute = {
+		left: margin,
+		top: margin,
 		right: this.doc.page.width - margin,
 		bottom: this.doc.page.height - margin
 	}
 	this.stamp = {
 		width: mm2pt(182.88),
 		height: mm2pt(54.99),
-		bottom: this.margins.bottom,
-		right: this.margins.right
+		bottom: this.margins.absolute.bottom,
+		right: this.margins.absolute.right
 	}
 	this.stamp.left = this.stamp.right - this.stamp.width;
 	this.stamp.top = this.stamp.bottom - this.stamp.height;
@@ -127,8 +133,8 @@ din.prototype.areas = function() {
 		Left area is AeDE described as AD vector.
 	 */
 	return {
-		top: area(this.margins.left, this.margins.top, this.margins.right, this.stamp.top),
-		left: area(this.margins.left, this.margins.top, this.stamp.left, this.margins.bottom)
+		top: area(this.margins.left, this.margins.top, this.margins.absolute.right, this.stamp.top),
+		left: area(this.margins.left, this.margins.top, this.stamp.left, this.margins.absolute.bottom)
 	};
 }
 
@@ -140,9 +146,9 @@ din.prototype.line = function(x1, y1, x2, y2) {
 din.prototype.drawBorder = function() {
 	this.doc
 		.moveTo(this.margins.left, this.margins.top)
-		.lineTo(this.margins.left, this.margins.bottom)
-		.lineTo(this.margins.right, this.margins.bottom)
-		.lineTo(this.margins.right, this.margins.top)
+		.lineTo(this.margins.left, this.margins.absolute.bottom)
+		.lineTo(this.margins.absolute.right, this.margins.absolute.bottom)
+		.lineTo(this.margins.absolute.right, this.margins.top)
 		.lineTo(this.margins.left, this.margins.top)
 		.stroke();
 
